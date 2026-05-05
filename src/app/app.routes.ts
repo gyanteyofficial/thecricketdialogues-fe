@@ -22,6 +22,18 @@ export const routes: Routes = [
     loadComponent: () => import('./ipl/ipl.component').then(m => m.IplComponent)
   },
   {
+    path: 'rankings',
+    loadComponent: () => import('./rankings/rankings.component').then(m => m.RankingsComponent)
+  },
+  {
+    path: 'calendar',
+    loadComponent: () => import('./calendar/calendar.component').then(m => m.CalendarComponent)
+  },
+  {
+    path: 'quiz',
+    loadComponent: () => import('./quiz/quiz.component').then(m => m.QuizComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

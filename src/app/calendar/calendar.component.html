@@ -1,0 +1,107 @@
+<div class="page-hero">
+  <div class="container">
+    <h1>📅 Cricket Calendar</h1>
+    <p>Upcoming international fixtures, IPL matches and tournament schedule</p>
+  </div>
+</div>
+
+<div class="container page-content">
+  <div class="cal-layout">
+    <!-- Calendar -->
+    <div class="cal-panel card">
+      <div class="cal-nav">
+        <button class="nav-btn" (click)="prevMonth()">‹</button>
+        <h2 class="cal-month-title">{{ monthLabel }}</h2>
+        <button class="nav-btn" (click)="nextMonth()">›</button>
+      </div>
+
+      <div class="day-labels">
+        @for (d of dayNames; track d) {
+          <div class="day-label">{{ d }}</div>
+        }
+      </div>
+
+      <div class="day-grid">
+        @for (day of calendarDays; track $index) {
+          <div class="day-cell"
+               [class.empty]="!day"
+               [class.today]="isToday(day)"
+               [class.selected]="day === selectedDay"
+               [class.has-fixture]="hasFixture(day)"
+               [class.has-live]="hasLive(day)"
+               (click)="selectDay(day)">
+            @if (day) {
+              <span class="day-num">{{ day }}</span>
+              @if (hasLive(day)) {
+                <span class="live-pip"></span>
+              } @else if (hasFixture(day)) {
+                <span class="fixture-pip"></span>
+              }
+            }
+          </div>
+        }
+      </div>
+
+      <div class="cal-legend">
+        <span><span class="pip live-pip-sm"></span> Live</span>
+        <span><span class="pip fix-pip-sm"></span> Fixture</span>
+        <span><span class="pip today-pip-sm"></span> Today</span>
+      </div>
+    </div>
+
+    <!-- Fixtures List -->
+    <div class="fixtures-panel">
+      <div class="fixtures-header">
+        @if (selectedDay) {
+          <h3>{{ selectedDay }} {{ monthLabel }}</h3>
+          <button class="clear-btn" (click)="selectedDay = null">View all month ›</button>
+        } @else {
+          <h3>All fixtures — {{ monthLabel }}</h3>
+        }
+      </div>
+
+      @if (selectedFixtures.length === 0) {
+        <div class="no-fixtures card">
+          <span class="no-icon">🏏</span>
+          <p>No fixtures on this date.</p>
+        </div>
+      }
+
+      @for (fixture of selectedFixtures; track fixture.date + fixture.team1) {
+        <div class="fixture-card card" [class.fixture-live]="fixture.status === 'Live'">
+          <div class="fixture-top">
+            <span class="fix-date">{{ fixture.date }} {{ monthLabel }}</span>
+            <div class="fix-badges">
+              <span class="badge {{ formatBadgeCls(fixture.format) }}">{{ fixture.format }}</span>
+              <span class="fix-status {{ statusCls(fixture.status) }}">
+                @if (fixture.status === 'Live') { 🔴 }
+                {{ fixture.status }}
+              </span>
+            </div>
+          </div>
+
+          <div class="fixture-teams">
+            <div class="fix-team">
+              <span class="fix-flag">{{ fixture.flag1 }}</span>
+              <span class="fix-name">{{ fixture.team1 }}</span>
+            </div>
+            <div class="fix-vs">VS</div>
+            <div class="fix-team fix-team-r">
+              <span class="fix-name">{{ fixture.team2 }}</span>
+              <span class="fix-flag">{{ fixture.flag2 }}</span>
+            </div>
+          </div>
+
+          @if (fixture.result) {
+            <div class="fixture-result">🏆 {{ fixture.result }}</div>
+          }
+
+          <div class="fixture-meta">
+            <span class="fix-venue">📍 {{ fixture.venue }}</span>
+            <span class="fix-time">🕐 {{ fixture.time }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="page-hero">
+  <div class="container">
+    <h1>🌍 World Rankings</h1>
+    <p>ICC official player rankings for Test, ODI and T20 International cricket</p>
+  </div>
+</div>
+
+<div class="container page-content">
+  <div class="category-tabs">
+    @for (cat of categories; track cat) {
+      <button class="cat-tab" [class.active]="activeCategory === cat" (click)="activeCategory = cat">
+        @if (cat === 'Batting') { 🏏 }
+        @if (cat === 'Bowling') { ⚾ }
+        @if (cat === 'All-rounders') { ⭐ }
+        {{ cat }}
+      </button>
+    }
+  </div>
+
+  <div class="format-tabs">
+    @for (fmt of formats; track fmt) {
+      <button class="fmt-tab" [class.active]="activeFormat === fmt" (click)="activeFormat = fmt">{{ fmt }}</button>
+    }
+  </div>
+
+  <div class="rankings-card card">
+    <div class="rankings-header">
+      <span class="col-rank">Rank</span>
+      <span class="col-change">Chg</span>
+      <span class="col-player">Player</span>
+      <span class="col-country">Country</span>
+      <span class="col-rating">Rating</span>
+      <span class="col-bar"></span>
+    </div>
+
+    @for (entry of currentRankings; track entry.rank) {
+      <div class="ranking-row" [class.top3]="entry.rank <= 3">
+        <span class="col-rank">
+          @if (entry.rank <= 3) {
+            <span class="medal">{{ getRankMedal(entry.rank) }}</span>
+          } @else {
+            <span class="rank-num">{{ entry.rank }}</span>
+          }
+        </span>
+
+        <span class="col-change" [class]="'chg-' + getRankChange(entry).cls">
+          {{ getRankChange(entry).label }}
+        </span>
+
+        <span class="col-player">
+          <span class="player-name">{{ entry.name }}</span>
+        </span>
+
+        <span class="col-country">
+          <span class="flag">{{ entry.flag }}</span>
+          <span class="country-name">{{ entry.country }}</span>
+        </span>
+
+        <span class="col-rating" [style.color]="getRatingColor(entry.rating)">
+          {{ entry.rating }}
+        </span>
+
+        <span class="col-bar">
+          <div class="rating-bar-track">
+            <div class="rating-bar-fill" [style.width.%]="(entry.rating / 950) * 100" [style.background]="getRatingColor(entry.rating)"></div>
+          </div>
+        </span>
+      </div>
+    }
+  </div>
+
+  <div class="rankings-note">
+    <span>📅 Rankings updated weekly &nbsp;•&nbsp; Source: ICC Player Rankings &nbsp;•&nbsp; Ratings based on recent match performances</span>
+  </div>
+</div>

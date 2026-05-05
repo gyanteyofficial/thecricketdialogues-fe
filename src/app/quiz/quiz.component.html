@@ -1,0 +1,156 @@
+<div class="page-hero">
+  <div class="container">
+    <h1>🧠 Cricket Trivia Quiz</h1>
+    <p>Test your cricket knowledge with timed questions across records, players, IPL and history</p>
+  </div>
+</div>
+
+<div class="container page-content">
+
+  <!-- START SCREEN -->
+  @if (state === 'start') {
+    <div class="start-screen card">
+      <div class="start-icon">🏏</div>
+      <h2>Ready to Play?</h2>
+      <p>10 questions &nbsp;•&nbsp; 15 seconds each &nbsp;•&nbsp; Test your cricket IQ</p>
+
+      <div class="category-section">
+        <label class="cat-label">Choose a Category</label>
+        <div class="cat-grid">
+          @for (cat of categories; track cat) {
+            <button class="cat-btn" [class.active]="selectedCategory === cat" (click)="selectedCategory = cat">
+              @if (cat === 'All') { 🌐 }
+              @if (cat === 'Records') { 📊 }
+              @if (cat === 'IPL') { 🏏 }
+              @if (cat === 'Players') { 👤 }
+              @if (cat === 'History') { 📜 }
+              @if (cat === 'Formats') { 📋 }
+              {{ cat }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <button class="btn-start" (click)="startQuiz()">Start Quiz →</button>
+    </div>
+  }
+
+  <!-- PLAYING SCREEN -->
+  @if (state === 'playing') {
+    <div class="quiz-layout">
+      <div class="quiz-card card">
+        <!-- Progress -->
+        <div class="quiz-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="((currentIndex) / activeQuestions.length) * 100"></div>
+          </div>
+          <span class="q-counter">{{ currentIndex + 1 }} / {{ activeQuestions.length }}</span>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-row">
+          <div class="timer-track">
+            <div class="timer-fill" [style.width.%]="timerPct" [class.timer-warn]="timeLeft <= 5"></div>
+          </div>
+          <span class="timer-num" [class.timer-warn]="timeLeft <= 5">{{ timeLeft }}s</span>
+        </div>
+
+        <!-- Category tag -->
+        <div class="q-category">{{ currentQuestion.category }}</div>
+
+        <!-- Question -->
+        <div class="question-text">{{ currentQuestion.q }}</div>
+
+        <!-- Options -->
+        <div class="options-grid">
+          @for (opt of currentQuestion.options; track $index; let i = $index) {
+            <button class="option-btn"
+                    [class.correct]="answered && i === currentQuestion.correct"
+                    [class.wrong]="answered && i === selected && i !== currentQuestion.correct"
+                    [class.dimmed]="answered && i !== currentQuestion.correct && i !== selected"
+                    [disabled]="answered"
+                    (click)="selectAnswer(i)">
+              <span class="opt-letter">{{ ['A','B','C','D'][i] }}</span>
+              <span class="opt-text">{{ opt }}</span>
+              @if (answered && i === currentQuestion.correct) { <span class="opt-icon">✓</span> }
+              @if (answered && i === selected && i !== currentQuestion.correct) { <span class="opt-icon">✗</span> }
+            </button>
+          }
+        </div>
+
+        <!-- Fact -->
+        @if (answered && currentQuestion.fact) {
+          <div class="fact-box">
+            <span class="fact-icon">💡</span>
+            <span>{{ currentQuestion.fact }}</span>
+          </div>
+        }
+
+        <!-- Next -->
+        @if (answered) {
+          <div class="next-row">
+            <div class="ans-feedback" [class.correct-fb]="selected === currentQuestion.correct" [class.wrong-fb]="selected !== currentQuestion.correct">
+              @if (selected === currentQuestion.correct) { ✅ Correct! +1 point }
+              @else if (selected === -1) { ⏰ Time's up! }
+              @else { ❌ Incorrect }
+            </div>
+            <button class="btn-next" (click)="next()">
+              @if (currentIndex < activeQuestions.length - 1) { Next Question → }
+              @else { See Results → }
+            </button>
+          </div>
+        }
+      </div>
+
+      <!-- Score sidebar -->
+      <div class="score-sidebar card">
+        <div class="sidebar-score">
+          <span class="score-big">{{ score }}</span>
+          <span class="score-total">/ {{ currentIndex + (answered ? 1 : 0) }}</span>
+        </div>
+        <div class="sidebar-label">Points</div>
+        <div class="answer-history">
+          @for (a of answers; track $index) {
+            <div class="ah-dot" [class.ah-correct]="a.correct" [class.ah-wrong]="!a.correct">
+              {{ a.correct ? '✓' : '✗' }}
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- RESULT SCREEN -->
+  @if (state === 'result') {
+    <div class="result-screen card">
+      <div class="result-trophy">
+        @if (score === activeQuestions.length) { 🏆 }
+        @else if (score >= activeQuestions.length * 0.8) { ⭐ }
+        @else if (score >= activeQuestions.length * 0.6) { 🏅 }
+        @else { 🏏 }
+      </div>
+      <h2 class="result-label">{{ scoreLabel }}</h2>
+      <div class="result-score">
+        <span class="rs-num">{{ score }}</span>
+        <span class="rs-out">/ {{ activeQuestions.length }}</span>
+      </div>
+      <p class="result-sub">You answered {{ score }} out of {{ activeQuestions.length }} questions correctly</p>
+
+      <div class="result-breakdown">
+        @for (a of answers; track $index) {
+          <div class="rb-row" [class.rb-correct]="a.correct" [class.rb-wrong]="!a.correct">
+            <span class="rb-icon">{{ a.correct ? '✓' : '✗' }}</span>
+            <span class="rb-q">Q{{ $index + 1 }}: {{ activeQuestions[$index].q }}</span>
+            <span class="rb-time">{{ a.time }}s</span>
+          </div>
+        }
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-start" (click)="startQuiz()">Play Again</button>
+        <button class="btn-outline-q" (click)="restart()">Change Category</button>
+      </div>
+    </div>
+  }
+
+</div>

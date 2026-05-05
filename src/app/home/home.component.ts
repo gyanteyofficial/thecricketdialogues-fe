@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 import { CricketService } from '../services/cricket.service';
 import { Player, League, Match } from '../models/cricket.models';
 import { AdBannerComponent } from '../shared/ad-banner/ad-banner.component';
+import { DidYouKnowComponent } from '../shared/did-you-know/did-you-know.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterLink, AdBannerComponent],
+  imports: [CommonModule, RouterLink, AdBannerComponent, DidYouKnowComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

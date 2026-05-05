@@ -1,0 +1,19 @@
+<div class="dyk-widget">
+  <div class="dyk-header">
+    <span class="dyk-label">💡 Did You Know?</span>
+    <div class="dyk-controls">
+      <button class="dyk-btn" (click)="prev()">‹</button>
+      <span class="dyk-counter">{{ currentIndex + 1 }} / {{ facts.length }}</span>
+      <button class="dyk-btn" (click)="next()">›</button>
+    </div>
+  </div>
+  <div class="dyk-body" [class.visible]="visible">
+    <span class="dyk-icon">{{ current.icon }}</span>
+    <p class="dyk-text">{{ current.text }}</p>
+  </div>
+  <div class="dyk-dots">
+    @for (f of facts; track $index) {
+      <span class="dot" [class.active]="$index === currentIndex"></span>
+    }
+  </div>
+</div>

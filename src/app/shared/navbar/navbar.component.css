@@ -71,6 +71,8 @@
 
 .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
 .nav-links a.active { color: var(--accent); background: rgba(245,166,35,0.1); }
+.nav-links a.nav-quiz { color: #ffc107; font-weight: 700; }
+.nav-links a.nav-quiz:hover { background: rgba(255,193,7,0.1); }
 
 .menu-toggle {
   display: none;
