@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CricketService } from '../services/cricket.service';
 import { IPLSeason } from '../models/cricket.models';
+import { AdBannerComponent } from '../shared/ad-banner/ad-banner.component';
 
 @Component({
   selector: 'app-ipl',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AdBannerComponent],
   templateUrl: './ipl.component.html',
   styleUrl: './ipl.component.css'
 })

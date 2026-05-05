@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CricketService } from '../services/cricket.service';
 import { Player } from '../models/cricket.models';
+import { AdBannerComponent } from '../shared/ad-banner/ad-banner.component';
 
 @Component({
   selector: 'app-players',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, AdBannerComponent],
   templateUrl: './players.component.html',
   styleUrl: './players.component.css'
 })

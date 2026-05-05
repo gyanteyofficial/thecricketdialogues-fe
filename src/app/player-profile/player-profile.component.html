@@ -48,6 +48,11 @@
     </div>
   </div>
 
+  <!-- Ad: Below hero -->
+  <div class="container" style="padding-top:20px;">
+    <app-ad-banner format="leaderboard"></app-ad-banner>
+  </div>
+
   <div class="container profile-body">
     <div class="profile-grid">
       <!-- Main -->
@@ -94,6 +99,9 @@
             }
           </div>
         </div>
+
+        <!-- Ad: Between stats and performance -->
+        <app-ad-banner format="leaderboard"></app-ad-banner>
 
         <!-- Performance Bars -->
         <div class="card section-card">
@@ -170,6 +178,9 @@
           </div>
         </div>
 
+        <!-- Ad: Sidebar rectangle -->
+        <app-ad-banner format="rectangle"></app-ad-banner>
+
         <!-- IPL Teams -->
         @if (player.iplTeams.length > 0) {
           <div class="card section-card">
@@ -200,6 +211,9 @@
             </div>
           </div>
         }
+
+        <!-- Ad: Bottom of sidebar -->
+        <app-ad-banner format="rectangle"></app-ad-banner>
       </div>
     </div>
   </div>

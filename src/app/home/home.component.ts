@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CricketService } from '../services/cricket.service';
 import { Player, League, Match } from '../models/cricket.models';
+import { AdBannerComponent } from '../shared/ad-banner/ad-banner.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AdBannerComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

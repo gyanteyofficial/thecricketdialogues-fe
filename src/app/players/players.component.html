@@ -39,7 +39,10 @@
     </div>
   </div>
 
-  <div class="results-info">
+  <!-- Ad: Below Filters -->
+  <app-ad-banner format="leaderboard"></app-ad-banner>
+
+  <div class="results-info" style="margin-top:16px;">
     <span>{{filtered.length}} player{{filtered.length !== 1 ? 's' : ''}} found</span>
     @if (countryFilter !== 'All') {
       <span class="active-filter">{{getFlag(countryFilter)}} {{countryFilter}} <button (click)="countryFilter='All'; applyFilters()">✕</button></span>
@@ -50,7 +53,7 @@
   </div>
 
   <div class="players-grid">
-    @for (player of filtered; track player.id) {
+    @for (player of filtered; track player.id; let i = $index) {
       <a [routerLink]="['/players', player.id]" class="player-card card">
         <div class="card-top">
           <div class="avatar" [style.background]="getAvatarGradient(player.country)">
@@ -92,6 +95,13 @@
           <span class="view-profile">View Profile →</span>
         </div>
       </a>
+
+      <!-- Ad: After every 9th player card (full-width slot) -->
+      @if ((i + 1) % 9 === 0) {
+        <div class="ad-in-grid">
+          <app-ad-banner format="leaderboard"></app-ad-banner>
+        </div>
+      }
     }
   </div>
 
@@ -102,4 +112,9 @@
       <p>Try adjusting your search or filters</p>
     </div>
   }
+
+  <!-- Ad: Bottom of page -->
+  <div style="margin-top:40px;">
+    <app-ad-banner format="leaderboard"></app-ad-banner>
+  </div>
 </div>

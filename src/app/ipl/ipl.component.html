@@ -21,6 +21,9 @@
     </div>
   </div>
 
+  <!-- Ad: Below Year Selector -->
+  <app-ad-banner format="leaderboard"></app-ad-banner>
+
   @if (selectedSeason) {
     <!-- Winner Banner -->
     <div class="winner-banner" [style.border-color]="selectedSeason.winnerColor + '66'" [style.background]="'linear-gradient(135deg, ' + selectedSeason.winnerColor + '22' + ', var(--bg-card))'">
@@ -69,6 +72,11 @@
           </div>
         </div>
 
+        <!-- Ad: Between stat cards and notable players -->
+        <div style="margin: 24px 0;">
+          <app-ad-banner format="leaderboard"></app-ad-banner>
+        </div>
+
         <!-- Notable Players -->
         <div class="notable-section">
           <h3 class="sub-title">Key Players of the Season</h3>
@@ -92,6 +100,11 @@
               </div>
             }
           </div>
+        </div>
+
+        <!-- Ad: Bottom of overview -->
+        <div style="margin-top: 32px;">
+          <app-ad-banner format="leaderboard"></app-ad-banner>
         </div>
       </div>
     }
@@ -135,6 +148,11 @@
           <span class="legend-item"><span class="legend-dot gold"></span>Champion</span>
           <span class="legend-item"><span class="legend-dot blue"></span>Qualified Playoffs (Top 4)</span>
         </div>
+
+        <!-- Ad: Below rankings table -->
+        <div style="margin-top: 32px;">
+          <app-ad-banner format="leaderboard"></app-ad-banner>
+        </div>
       </div>
     }
 
@@ -171,6 +189,11 @@
               <span class="pt-stat-val">{{p.wickets ?? '-'}}</span>
             </div>
           }
+        </div>
+
+        <!-- Ad: Below players table -->
+        <div style="margin-top: 32px;">
+          <app-ad-banner format="leaderboard"></app-ad-banner>
         </div>
       </div>
     }
