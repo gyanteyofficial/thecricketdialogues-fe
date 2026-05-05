@@ -1,40 +1,47 @@
-# thecricketdialogues-fe
+# CricketDialogues - Cricket Information Website
 
 ## Overview
-Angular 21 frontend application for "The Cricket Dialogues" project.
+A comprehensive Angular 21 cricket information website featuring leagues, player profiles, IPL history, and match data with a dark cricket-themed UI.
 
 ## Tech Stack
-- **Framework:** Angular 21 (standalone bootstrap)
+- **Framework:** Angular 21 (standalone components, lazy-loaded routes)
 - **Language:** TypeScript ~5.9
 - **Build System:** Angular CLI / `@angular/build`
 - **Package Manager:** npm 10.9.4
-- **Testing:** Vitest
+
+## Features
+1. **Home Page** - Hero section, featured players, leagues overview, recent matches
+2. **Leagues** - 12 leagues (International + Domestic) with type/format filters and search
+3. **Players** - 22 players filterable by country, role, sortable by stats (runs/wickets/matches/average)
+4. **Player Profile** - Full stats, bio, performance bars, IPL team history, related players
+5. **IPL Hub** - Year-wise seasons (2008-2024) with:
+   - Season overview (Man of Series, top scorer, wicket taker)
+   - All-time champions list
+   - Team rankings table with points/NRR
+   - Player lists by year
 
 ## Project Structure
 ```
 src/
-  main.ts          # App bootstrap (bootstrapApplication)
   app/
-    app.ts         # Root component
-    app.html       # Root template
-    app.css        # Root styles
-    app.routes.ts  # Router config
-    app.config.ts  # App config (provides router)
-  styles.css       # Global styles
-public/            # Static assets
+    models/cricket.models.ts     # TypeScript interfaces
+    services/cricket.service.ts  # All data (players, leagues, IPL, matches)
+    shared/navbar/               # Sticky navigation component
+    home/                        # Landing page
+    leagues/                     # Leagues & tournaments
+    players/                     # Player listing with filters
+    player-profile/              # Individual player profile
+    ipl/                         # IPL hub with year selector
+    app.routes.ts                # Lazy-loaded routes
+    app.ts                       # Root component
+  styles.css                     # Global dark theme with CSS variables
 ```
 
 ## Development
-- **Start:** `npm start` (runs on port 5000, host 0.0.0.0)
+- **Start:** `npm start` (port 5000, host 0.0.0.0)
 - **Build:** `npm run build`
-- **Test:** `npm test`
-
-## Replit Configuration
-- Dev server runs on port 5000 with `--allowed-hosts` flag to support the Replit proxy
-- `NG_CLI_ANALYTICS=false` is set to skip the interactive analytics prompt
-- Workflow: "Start application" → `npm start`
 
 ## Deployment
-- Deployment target: **static**
+- Target: **static**
 - Build command: `npm run build`
 - Public directory: `dist/thecricketdialogues-fe/browser`

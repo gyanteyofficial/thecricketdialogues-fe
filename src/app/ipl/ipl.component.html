@@ -1,0 +1,178 @@
+<div class="page-hero">
+  <div class="container">
+    <h1>🏏 IPL Hub</h1>
+    <p>Year-wise IPL seasons, team rankings, player squads and champions</p>
+  </div>
+</div>
+
+<div class="container page-content">
+  <!-- Year Selector -->
+  <div class="year-selector">
+    <h3>Select Season</h3>
+    <div class="year-tabs">
+      @for (s of seasons; track s.year) {
+        <button class="year-tab" [class.active]="selectedYear === s.year" (click)="selectYear(s.year)">
+          <span class="year-num">{{s.year}}</span>
+          @if (selectedYear === s.year) {
+            <span class="year-winner-dot" [style.background]="s.winnerColor"></span>
+          }
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (selectedSeason) {
+    <!-- Winner Banner -->
+    <div class="winner-banner" [style.border-color]="selectedSeason.winnerColor + '66'" [style.background]="'linear-gradient(135deg, ' + selectedSeason.winnerColor + '22' + ', var(--bg-card))'">
+      <div class="trophy-icon">🏆</div>
+      <div class="winner-info">
+        <div class="winner-label">IPL {{selectedSeason.year}} Champion</div>
+        <h2 class="winner-name" [style.color]="selectedSeason.winnerColor">{{selectedSeason.winner}}</h2>
+        <div class="winner-meta">
+          <span>Runners-up: {{selectedSeason.runnerUp}}</span>
+          <span class="dot">•</span>
+          <span>📍 {{selectedSeason.finalVenue}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab" [class.active]="activeTab === 'overview'" (click)="activeTab = 'overview'">📊 Season Overview</button>
+      <button class="tab" [class.active]="activeTab === 'rankings'" (click)="activeTab = 'rankings'">📋 Team Rankings</button>
+      <button class="tab" [class.active]="activeTab === 'players'" (click)="activeTab = 'players'">👤 Player List</button>
+    </div>
+
+    <!-- Overview Tab -->
+    @if (activeTab === 'overview') {
+      <div class="tab-content">
+        <div class="overview-grid">
+          <div class="stat-card card">
+            <div class="sc-icon">🏅</div>
+            <div class="sc-label">Man of the Series</div>
+            <div class="sc-val">{{selectedSeason.manOfTheSeries}}</div>
+          </div>
+          <div class="stat-card card">
+            <div class="sc-icon">🏏</div>
+            <div class="sc-label">Top Scorer</div>
+            <div class="sc-val">{{selectedSeason.topScorer}}</div>
+          </div>
+          <div class="stat-card card">
+            <div class="sc-icon">⚾</div>
+            <div class="sc-label">Top Wicket Taker</div>
+            <div class="sc-val">{{selectedSeason.topWicketTaker}}</div>
+          </div>
+          <div class="stat-card card">
+            <div class="sc-icon">👥</div>
+            <div class="sc-label">Teams Participated</div>
+            <div class="sc-val">{{selectedSeason.rankings.length}} Teams</div>
+          </div>
+        </div>
+
+        <!-- Notable Players -->
+        <div class="notable-section">
+          <h3 class="sub-title">Key Players of the Season</h3>
+          <div class="notable-grid">
+            @for (p of selectedSeason.notablePlayers; track p) {
+              <div class="notable-tag">⭐ {{p}}</div>
+            }
+          </div>
+        </div>
+
+        <!-- All Time Winners -->
+        <div class="winners-section">
+          <h3 class="sub-title">All IPL Champions</h3>
+          <div class="winners-list">
+            @for (w of getAllWinners(); track w.year) {
+              <div class="winner-row" [class.highlight]="w.year === selectedYear">
+                <div class="wr-year">{{w.year}}</div>
+                <div class="wr-trophy" [style.color]="w.color">🏆</div>
+                <div class="wr-winner" [style.color]="w.year === selectedYear ? w.color : ''">{{w.winner}}</div>
+                <div class="wr-runner">vs {{w.runnerUp}}</div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Rankings Tab -->
+    @if (activeTab === 'rankings') {
+      <div class="tab-content">
+        <div class="rankings-table card">
+          <div class="table-header">
+            <span class="th-rank">Rank</span>
+            <span class="th-team">Team</span>
+            <span class="th-num">P</span>
+            <span class="th-num">W</span>
+            <span class="th-num">L</span>
+            <span class="th-num">Pts</span>
+            <span class="th-nrr">NRR</span>
+          </div>
+          @for (team of selectedSeason.rankings; track team.rank) {
+            <div class="table-row" [class.winner-row-r]="team.rank === 1" [class.top4]="team.rank <= 4 && team.rank > 1">
+              <span class="td-rank">
+                @if (team.rank <= 3) {
+                  {{getRankMedal(team.rank)}}
+                } @else {
+                  <span class="rank-num">{{team.rank}}</span>
+                }
+              </span>
+              <span class="td-team">
+                <span class="team-dot" [style.background]="team.color"></span>
+                <span class="team-short">{{team.shortName}}</span>
+                <span class="team-full">{{team.team}}</span>
+              </span>
+              <span class="td-num">{{team.played}}</span>
+              <span class="td-num td-won">{{team.won}}</span>
+              <span class="td-num td-lost">{{team.lost}}</span>
+              <span class="td-num td-pts">{{team.points}}</span>
+              <span class="td-nrr" [class.positive]="team.nrr.startsWith('+')" [class.negative]="team.nrr.startsWith('-')">{{team.nrr}}</span>
+            </div>
+          }
+        </div>
+        <div class="table-legend">
+          <span class="legend-item"><span class="legend-dot gold"></span>Champion</span>
+          <span class="legend-item"><span class="legend-dot blue"></span>Qualified Playoffs (Top 4)</span>
+        </div>
+      </div>
+    }
+
+    <!-- Players Tab -->
+    @if (activeTab === 'players') {
+      <div class="tab-content">
+        <div class="players-toolbar">
+          <h3>{{selectedYear}} Season Squad Overview</h3>
+          <div class="sort-wrap">
+            <label>Sort by</label>
+            <select [(ngModel)]="playerSort" class="sort-select">
+              <option value="runs">Most Runs</option>
+              <option value="wickets">Most Wickets</option>
+              <option value="name">Name (A-Z)</option>
+            </select>
+          </div>
+        </div>
+        <div class="players-table card">
+          <div class="pt-header">
+            <span class="pt-name">Player</span>
+            <span class="pt-country">Country</span>
+            <span class="pt-team">IPL Team</span>
+            <span class="pt-role">Role</span>
+            <span class="pt-stat">Runs</span>
+            <span class="pt-stat">Wickets</span>
+          </div>
+          @for (p of sortedPlayers; track p.name) {
+            <div class="pt-row">
+              <span class="pt-name-val">{{p.name}}</span>
+              <span class="pt-country-val">{{getCountryFlag(p.country)}} {{p.country}}</span>
+              <span class="pt-team-val">{{p.team}}</span>
+              <span><span class="badge {{getRoleBadge(p.role)}}">{{p.role}}</span></span>
+              <span class="pt-stat-val">{{p.runs ?? '-'}}</span>
+              <span class="pt-stat-val">{{p.wickets ?? '-'}}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

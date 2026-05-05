@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a routerLink="/" class="nav-brand" (click)="closeMenu()">
+      <span class="brand-icon">🏏</span>
+      <div class="brand-text">
+        <span class="brand-main">CricketDialogues</span>
+        <span class="brand-sub">Your Cricket Universe</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" [class.open]="menuOpen">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeMenu()">Home</a></li>
+      <li><a routerLink="/leagues" routerLinkActive="active" (click)="closeMenu()">Leagues</a></li>
+      <li><a routerLink="/players" routerLinkActive="active" (click)="closeMenu()">Players</a></li>
+      <li><a routerLink="/ipl" routerLinkActive="active" (click)="closeMenu()">IPL</a></li>
+    </ul>
+
+    <button class="menu-toggle" (click)="toggleMenu()" [class.open]="menuOpen" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>

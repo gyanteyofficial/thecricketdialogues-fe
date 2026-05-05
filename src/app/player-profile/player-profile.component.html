@@ -1,0 +1,213 @@
+@if (player) {
+  <div class="profile-hero" [style.background]="'linear-gradient(135deg, ' + getAvatarGradient(player.country) + '33, var(--bg) 70%)'">
+    <div class="container hero-inner">
+      <a routerLink="/players" class="back-link">← All Players</a>
+      <div class="hero-content">
+        <div class="big-avatar" [style.background]="getAvatarGradient(player.country)">
+          <span>{{player.avatar}}</span>
+        </div>
+        <div class="hero-info">
+          <div class="hero-top">
+            <div>
+              <div class="player-country-row">
+                <span class="flag-big">{{getFlag(player.country)}}</span>
+                <span class="country-label">{{player.country}}</span>
+                <span class="badge {{getRoleBadge(player.role)}}">{{player.role}}</span>
+              </div>
+              <h1>{{player.name}}</h1>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="hs">
+              <span class="hs-val">{{player.matches}}</span>
+              <span class="hs-lbl">Matches</span>
+            </div>
+            <div class="hs">
+              <span class="hs-val">{{player.runs.toLocaleString()}}</span>
+              <span class="hs-lbl">Runs</span>
+            </div>
+            <div class="hs">
+              <span class="hs-val">{{player.average}}</span>
+              <span class="hs-lbl">Average</span>
+            </div>
+            <div class="hs">
+              <span class="hs-val">{{player.wickets}}</span>
+              <span class="hs-lbl">Wickets</span>
+            </div>
+            <div class="hs">
+              <span class="hs-val">{{player.hundreds}}</span>
+              <span class="hs-lbl">100s</span>
+            </div>
+            <div class="hs">
+              <span class="hs-val">{{player.fifties}}</span>
+              <span class="hs-lbl">50s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container profile-body">
+    <div class="profile-grid">
+      <!-- Main -->
+      <div class="main-col">
+        <!-- Bio -->
+        <div class="card section-card">
+          <h2 class="card-title">About</h2>
+          <p class="bio-text">{{player.bio}}</p>
+        </div>
+
+        <!-- Full Stats -->
+        <div class="card section-card">
+          <h2 class="card-title">Career Statistics</h2>
+          <div class="stats-table">
+            <div class="stats-header">
+              <span>Statistic</span>
+              <span>Value</span>
+            </div>
+            <div class="stats-row">
+              <span>Total Matches</span><span class="stat-highlight">{{player.matches}}</span>
+            </div>
+            <div class="stats-row">
+              <span>Total Runs</span><span class="stat-highlight">{{player.runs.toLocaleString()}}</span>
+            </div>
+            <div class="stats-row">
+              <span>Batting Average</span><span class="stat-highlight">{{player.average}}</span>
+            </div>
+            <div class="stats-row">
+              <span>Strike Rate</span><span class="stat-highlight">{{player.strikeRate}}</span>
+            </div>
+            <div class="stats-row">
+              <span>Centuries (100s)</span><span class="stat-highlight">{{player.hundreds}}</span>
+            </div>
+            <div class="stats-row">
+              <span>Half-Centuries (50s)</span><span class="stat-highlight">{{player.fifties}}</span>
+            </div>
+            <div class="stats-row">
+              <span>Total Wickets</span><span class="stat-highlight">{{player.wickets}}</span>
+            </div>
+            @if (player.wickets > 0) {
+              <div class="stats-row">
+                <span>Economy Rate</span><span class="stat-highlight">{{player.economy}}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Performance Bars -->
+        <div class="card section-card">
+          <h2 class="card-title">Performance Overview</h2>
+          <div class="perf-bars">
+            <div class="perf-bar">
+              <div class="perf-label">
+                <span>Batting (Runs)</span>
+                <span>{{player.runs.toLocaleString()}}</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill bar-blue" [style.width.%]="Math.min(player.runs / 160, 100)"></div>
+              </div>
+            </div>
+            <div class="perf-bar">
+              <div class="perf-label">
+                <span>Centuries</span>
+                <span>{{player.hundreds}}</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill bar-orange" [style.width.%]="Math.min(player.hundreds * 3, 100)"></div>
+              </div>
+            </div>
+            @if (player.wickets > 0) {
+              <div class="perf-bar">
+                <div class="perf-label">
+                  <span>Wickets</span>
+                  <span>{{player.wickets}}</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-green" [style.width.%]="Math.min(player.wickets / 8, 100)"></div>
+                </div>
+              </div>
+            }
+            <div class="perf-bar">
+              <div class="perf-label">
+                <span>Matches Played</span>
+                <span>{{player.matches}}</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill bar-purple" [style.width.%]="Math.min(player.matches / 4, 100)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="side-col">
+        <!-- Personal -->
+        <div class="card section-card">
+          <h2 class="card-title">Personal Info</h2>
+          <div class="info-list">
+            <div class="info-row">
+              <span class="info-icon">🎂</span>
+              <div><span class="info-lbl">Born</span><span class="info-val">{{player.born}}</span></div>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">📅</span>
+              <div><span class="info-lbl">Age</span><span class="info-val">{{player.age}} years</span></div>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">🌍</span>
+              <div><span class="info-lbl">Country</span><span class="info-val">{{player.country}}</span></div>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">🏏</span>
+              <div><span class="info-lbl">Batting Style</span><span class="info-val">{{player.battingStyle}}</span></div>
+            </div>
+            <div class="info-row">
+              <span class="info-icon">⚾</span>
+              <div><span class="info-lbl">Bowling Style</span><span class="info-val">{{player.bowlingStyle}}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IPL Teams -->
+        @if (player.iplTeams.length > 0) {
+          <div class="card section-card">
+            <h2 class="card-title">🏏 IPL Teams</h2>
+            <div class="ipl-teams">
+              @for (team of player.iplTeams; track team) {
+                <div class="ipl-team-tag">{{team}}</div>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Same Country Players -->
+        @if (relatedPlayers.length > 0) {
+          <div class="card section-card">
+            <h2 class="card-title">{{getFlag(player.country)}} More from {{player.country}}</h2>
+            <div class="related-list">
+              @for (rp of relatedPlayers; track rp.id) {
+                <a [routerLink]="['/players', rp.id]" class="related-player">
+                  <div class="related-avatar" [style.background]="getAvatarGradient(rp.country)">{{rp.avatar}}</div>
+                  <div class="related-info">
+                    <span class="related-name">{{rp.name}}</span>
+                    <span class="badge {{getRelatedRoleBadge(rp.role)}}">{{rp.role}}</span>
+                  </div>
+                  <span class="related-arrow">→</span>
+                </a>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="not-found">
+    <div class="not-found-icon">🏏</div>
+    <h2>Player Not Found</h2>
+    <p>The player you're looking for doesn't exist.</p>
+    <a routerLink="/players" class="btn btn-accent">Browse All Players</a>
+  </div>
+}

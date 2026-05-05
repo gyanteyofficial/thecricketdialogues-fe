@@ -1,0 +1,90 @@
+<div class="page-hero">
+  <div class="container">
+    <h1>🏆 Leagues & Tournaments</h1>
+    <p>National, international leagues and major cricket tournaments from around the globe</p>
+  </div>
+</div>
+
+<div class="container page-content">
+  <div class="filters">
+    <input type="search" placeholder="Search leagues..." [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" class="search-input" />
+    <div class="filter-group">
+      <label>Type</label>
+      <div class="filter-tabs">
+        @for (t of types; track t) {
+          <button class="filter-tab" [class.active]="typeFilter === t" (click)="typeFilter = t; applyFilters()">{{t}}</button>
+        }
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Format</label>
+      <div class="filter-tabs">
+        @for (f of formats; track f) {
+          <button class="filter-tab" [class.active]="formatFilter === f" (click)="formatFilter = f; applyFilters()">{{f}}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="results-count">Showing {{filtered.length}} of {{leagues.length}} leagues</div>
+
+  <div class="leagues-grid">
+    @for (league of filtered; track league.id) {
+      <div class="league-card card">
+        <div class="league-header">
+          <div class="league-logo-big" [style.background]="'radial-gradient(circle, ' + league.color + '22, transparent)'">
+            {{league.logo}}
+          </div>
+          <div class="league-badges">
+            <span class="badge {{getTypeBadge(league.type)}}">{{league.type}}</span>
+            <span class="badge {{getFormatBadge(league.format)}}">{{league.format}}</span>
+          </div>
+        </div>
+
+        <h2 class="league-name">{{league.name}}</h2>
+        <div class="league-short">{{league.shortName}}</div>
+
+        <p class="league-desc">{{league.description}}</p>
+
+        <div class="league-details">
+          <div class="detail-item">
+            <span class="detail-icon">🌍</span>
+            <div>
+              <span class="detail-label">Country / Region</span>
+              <span class="detail-value">{{league.country}} &bull; {{league.region}}</span>
+            </div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">📅</span>
+            <div>
+              <span class="detail-label">Current Season</span>
+              <span class="detail-value">{{league.currentSeason}}</span>
+            </div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">👥</span>
+            <div>
+              <span class="detail-label">Teams</span>
+              <span class="detail-value">{{league.teams}} Teams</span>
+            </div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">📆</span>
+            <div>
+              <span class="detail-label">Founded</span>
+              <span class="detail-value">{{league.founded}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (filtered.length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <h3>No leagues found</h3>
+      <p>Try adjusting your filters or search term</p>
+    </div>
+  }
+</div>
