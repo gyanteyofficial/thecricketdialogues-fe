@@ -1,0 +1,58 @@
+<div class="ticker-bar">
+  <div class="ticker-label">
+    <span class="live-dot"></span>
+    <span class="label-text">SCORES</span>
+  </div>
+
+  <div class="ticker-track-wrap">
+    <div class="ticker-track">
+      @for (match of matches; track match.id) {
+        <div class="ticker-item" [class.live]="match.status === 'LIVE'" [class.upcoming]="match.status === 'UPCOMING'" [class.result]="match.status === 'RESULT'">
+          <span class="match-badge" [class.badge-live]="match.status === 'LIVE'" [class.badge-upcoming]="match.status === 'UPCOMING'" [class.badge-result]="match.status === 'RESULT'">
+            @if (match.status === 'LIVE') { 🔴 } {{ match.status }}
+          </span>
+          <span class="match-format">{{ match.format }}</span>
+          <span class="teams">
+            <span class="team">{{ match.flag1 }} {{ match.team1 }}</span>
+            @if (match.score1) {
+              <span class="score">{{ match.score1 }}</span>
+            }
+            <span class="vs">vs</span>
+            <span class="team">{{ match.flag2 }} {{ match.team2 }}</span>
+            @if (match.score2) {
+              <span class="score">{{ match.score2 }}</span>
+            }
+            @if (match.overs) {
+              <span class="overs">({{ match.overs }} ov)</span>
+            }
+          </span>
+          <span class="match-summary">{{ match.summary }}</span>
+        </div>
+      }
+      <!-- Duplicate for seamless loop -->
+      @for (match of matches; track 'dup-' + match.id) {
+        <div class="ticker-item" [class.live]="match.status === 'LIVE'" [class.upcoming]="match.status === 'UPCOMING'" [class.result]="match.status === 'RESULT'">
+          <span class="match-badge" [class.badge-live]="match.status === 'LIVE'" [class.badge-upcoming]="match.status === 'UPCOMING'" [class.badge-result]="match.status === 'RESULT'">
+            @if (match.status === 'LIVE') { 🔴 } {{ match.status }}
+          </span>
+          <span class="match-format">{{ match.format }}</span>
+          <span class="teams">
+            <span class="team">{{ match.flag1 }} {{ match.team1 }}</span>
+            @if (match.score1) {
+              <span class="score">{{ match.score1 }}</span>
+            }
+            <span class="vs">vs</span>
+            <span class="team">{{ match.flag2 }} {{ match.team2 }}</span>
+            @if (match.score2) {
+              <span class="score">{{ match.score2 }}</span>
+            }
+            @if (match.overs) {
+              <span class="overs">({{ match.overs }} ov)</span>
+            }
+          </span>
+          <span class="match-summary">{{ match.summary }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>
